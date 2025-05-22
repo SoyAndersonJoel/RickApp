@@ -1,0 +1,7 @@
+{
+  "name": "RickApp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

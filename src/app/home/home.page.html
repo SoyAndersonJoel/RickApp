@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Rick and Morty Finder</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-item>
+    <ion-input [(ngModel)]="searchTerm" placeholder="Buscar personaje..."></ion-input>
+    <ion-button (click)="buscarPersonaje()">Buscar</ion-button>
+  </ion-item>
+
+  <div *ngIf="personajeEncontrado">
+    <ion-card>
+      <ion-card-header>
+        <p>personaje encontrado:</p>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-button [routerLink]="['/details', personajeEncontrado.id]">Ver Detalles</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="noEncontrado">
+    <ion-text color="danger">
+      <p>Personaje no encontrado</p>
+    </ion-text>
+  </div>
+</ion-content>
