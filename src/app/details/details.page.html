@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Detalle del Personaje</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" *ngIf="personaje">
+  <ion-card>
+    <img [src]="personaje.image" />
+    <br />
+    <ion-card-header>
+      <ion-card-title>{{ personaje.name }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Estado:</strong> {{ personaje.status }}</p>
+      <p><strong>Especie:</strong> {{ personaje.species }}</p>
+      <p><strong>Género:</strong> {{ personaje.gender }}</p>
+    </ion-card-content>
+  </ion-card>
+
+   <ion-item>
+    <ion-label position="stacked">Comentario</ion-label>
+    <ion-textarea [(ngModel)]="comentario" placeholder="Escribe tu comentario aquí..."></ion-textarea>
+  </ion-item>
+
+  <!-- Botón para guardar todo -->
+  <ion-button expand="full" color="success" (click)="guardar()">
+    Guardar personaje
+  </ion-button>
+
+  <!-- Botón para regresar -->
+  <ion-button expand="full" color="medium" (click)="regresar()">
+    Regresar
+  </ion-button>
+</ion-content>

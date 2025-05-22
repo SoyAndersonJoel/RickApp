@@ -1,40 +1,46 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
+import { PersonajeService } from '../services/personaje.service';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [IonicModule, CommonModule],
-  template: `
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Detalle del Personaje</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content class="ion-padding" *ngIf="personaje">
-      <ion-card>
-        <img [src]="personaje.image" />
-        <ion-card-header>
-          <ion-card-title>{{ personaje.name }}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <p><strong>Estado:</strong> {{ personaje.status }}</p>
-          <p><strong>Especie:</strong> {{ personaje.species }}</p>
-          <p><strong>Género:</strong> {{ personaje.gender }}</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-content>
-  `,
+  templateUrl: './details.page.html',
+  styleUrls: ['./details.page.scss'],
+  imports: [IonicModule, CommonModule, FormsModule, RouterModule],
 })
 export class DetailsPage {
   personaje: any;
+  comentario: string = '';
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private personajeService: PersonajeService
+  ) {
     const id = this.route.snapshot.paramMap.get('id');
-    this.http.get(`https://rickandmortyapi.com/api/character/${id}`)
-      .subscribe((res) => this.personaje = res);
+    if (id) {
+      this.personajeService.obtenerPorId(id).subscribe((res) => {
+        this.personaje = res;
+      });
+    }
+  }
+
+  async guardar() {
+    if (this.personaje && this.comentario.trim()) {
+      await this.personajeService.guardarPersonaje(this.personaje, this.comentario);
+      alert('¡Personaje y comentario guardados en Firebase!');
+      this.comentario = '';
+    } else {
+      alert('Por favor, escribe un comentario antes de guardar.');
+    }
+  }
+
+  regresar() {
+    this.router.navigate(['/']);
   }
 }
